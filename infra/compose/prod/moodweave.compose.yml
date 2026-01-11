@@ -1,0 +1,11 @@
+services:
+  moodweave-web:
+    image: moodweave-web:latest
+    container_name: moodweave-web
+    restart: always
+    networks:
+      - edge
+
+networks:
+  edge:
+    external: true
