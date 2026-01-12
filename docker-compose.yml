@@ -1,0 +1,12 @@
+services:
+  moodweave-web:
+    image: nginx:alpine
+    container_name: moodweave-web
+    volumes:
+      - /opt/moodweave/html:/usr/share/nginx/html:ro
+    networks:
+      - edge
+
+networks:
+  edge:
+    external: true
