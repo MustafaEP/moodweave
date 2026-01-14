@@ -1,0 +1,11 @@
+services:
+  moodweave-ai:
+    image: moodweave-ai:latest
+    container_name: moodweave-ai
+    restart: always
+    networks:
+      - edge
+
+networks:
+  edge:
+    external: true
