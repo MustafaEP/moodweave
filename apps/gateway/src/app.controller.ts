@@ -18,4 +18,10 @@ export class AppController {
       timestamp: new Date().toISOString(),
     }
   }
+
+  @Get('core/health')
+  async coreHealth() {
+    const res = await fetch('http://moodweave-core:8000/health/');
+    return res.json();
+  }
 }
