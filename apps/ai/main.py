@@ -3,6 +3,9 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+class MoodRequest(BaseModel):
+    text: str
+
 @app.get("/health")
 def health():
     return {
@@ -18,7 +21,7 @@ def analyze_mood(req: MoodRequest):
         mood = "happy"
     elif any(word in text for word in ["üzgün", "sad", "kötü", "depressed"]):
         mood = "sad"
-    else: 
+    else:
         mood = "neutral"
 
     return {
