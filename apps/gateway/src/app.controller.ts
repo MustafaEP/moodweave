@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Body, Post, HttpException, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -26,16 +26,25 @@ export class AppController {
   }
 
   @Get('ai/health')
-    async aiHealth() {
-      try {
-        const res = await fetch('http://moodweave-ai:8001/health');
-        return await res.json();
-      } catch (err) {
-        throw new HttpException(
-          { message: 'AI service unreachable' },
-          HttpStatus.BAD_GATEWAY,
-        );
-      }
+  async aiHealth() {
+    try {
+      const res = await fetch('http://moodweave-ai:8001/health');
+      return await res.json();
+    } catch (err) {
+      throw new HttpException(
+        { message: 'AI service unreachable' },
+        HttpStatus.BAD_GATEWAY,
+      );
     }
+  }
 
+  @Post('ai/analyze')
+  async analyze(@Body() body: { text: string }) {
+    const res = await fetch('http://moodweave-ai:8001/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return res.json();
+  }
 }
