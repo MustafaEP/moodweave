@@ -22,4 +22,4 @@ def music_by_mood(request):
     return JsonResponse({
         "mood": mood,
         "tracks": tracks
-    })
+    })    
