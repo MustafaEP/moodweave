@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Body, Post, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -46,5 +46,27 @@ export class AppController {
       body: JSON.stringify(body),
     });
     return res.json();
+  }
+
+  @Get('core/music')
+  async musicByMood(@Query('mood') mood: string) {
+    try {
+      const url = `http://moodweave-core:8000/music/?mood=${mood || 'neutral'}`;
+      const res = await fetch(url);
+
+      if (!res.ok) {
+        throw new Error(`Core response status: ${res.status}`);
+      }
+
+      return await res.json();
+    } catch (err) {
+      throw new HttpException(
+        {
+          message: 'Core music service unreachable',
+          error: err.message,
+        },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
   }
 }
