@@ -67,7 +67,7 @@ function App() {
 
           {result.suggestions && (
             <>
-              <h4>Önerilen Müzik Türleri 🎵</h4>
+              <h4>Önerilen Müzik Türleri</h4>
               <ul>
                 {result.suggestions.map((s: string) => (
                   <li key={s}>{s}</li>
