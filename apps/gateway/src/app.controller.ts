@@ -1,50 +1,24 @@
-import { Controller, Get, Body, Post, HttpException, HttpStatus, Query } from '@nestjs/common';
-import { AppService } from './app.service';
+import {
+  Controller,
+  Get,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 
-@Controller()
+@Controller('api') 
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Get('health')
   health() {
     return {
       status: 'ok',
       service: 'gateway',
-      timestamp: new Date().toISOString(),
-    }
+    };
   }
 
   @Get('core/health')
   async coreHealth() {
     const res = await fetch('http://moodweave-core:8000/health/');
-    return res.json();
-  }
-
-  @Get('ai/health')
-  async aiHealth() {
-    try {
-      const res = await fetch('http://moodweave-ai:8001/health');
-      return await res.json();
-    } catch (err) {
-      throw new HttpException(
-        { message: 'AI service unreachable' },
-        HttpStatus.BAD_GATEWAY,
-      );
-    }
-  }
-
-  @Post('ai/analyze')
-  async analyze(@Body() body: { text: string }) {
-    const res = await fetch('http://moodweave-ai:8001/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
     return res.json();
   }
 
@@ -59,7 +33,7 @@ export class AppController {
       }
 
       return await res.json();
-    } catch (err) {
+    } catch (err: any) {
       throw new HttpException(
         {
           message: 'Core music service unreachable',
