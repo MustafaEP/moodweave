@@ -19,13 +19,17 @@ def analyze_mood(req: MoodRequest):
 
     if any(word in text for word in ["mutlu", "happy", "iyi", "great"]):
         mood = "happy"
+        suggestion = ["Pop", "Dance", "Feel Good"]
     elif any(word in text for word in ["üzgün", "sad", "kötü", "depressed"]):
         mood = "sad"
+        suggestion = ["Acoustic", "Indie", "Chill"]
     else:
         mood = "neutral"
+        suggestion = ["Lo-fi", "Jazz", "Ambient"]
 
     return {
         "mood": mood,
         "confidence": 0.6,
-        "source": "rule-based-v1"
+        "suggestion": suggestion,
+        "source": "rule-based-v2"
     }
