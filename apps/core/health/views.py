@@ -13,18 +13,32 @@ def health(request):
 
 def music_by_mood(request):
     mood = request.GET.get("mood", "neutral")
-    logger.info(f"music_by_mood called with mood={mood}")
+    q = request.GET.get("q")
+    logger.info(f"music_by_mood called with mood={mood}, q={q}")
     
-    mood_query_map = {
-        "happy": "feel good pop",
-        "sad": "sad acoustic",
-        "neutral": "lofi chill",
-    }
+    if q: 
+        # if q is not empty, use q as query
+        tracks = search_tracks(q)
+        return JsonResponse({
+            "mood": mood,
+            "query": q,
+            "tracks": tracks
+        })
+    
+    else:
+        # Default mood mapping
+        mood_query_map = {
+            "happy": "feel good pop",
+            "sad": "sad acoustic",
+            "neutral": "lofi chill",
+        }
 
-    query = mood_query_map.get(mood, "lofi chill")
-    tracks = search_tracks(query)
+        query = mood_query_map.get(mood, "lofi chill")
+        tracks = search_tracks(query)
 
-    return JsonResponse({
-        "mood": mood,
-        "tracks": tracks
-    })    
+        return JsonResponse({
+            "mood": mood,
+            "tracks": tracks
+        })
+
+        
