@@ -27,7 +27,7 @@ export class AppController {
   @Post('ai/analyze')
   async analyzeMood(@Body() body: { text: string }) {
     try {
-      const res = await fetch('http://moodweave-ai:8000/analyze', {
+      const res = await fetch('http://moodweave-ai:8001/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
