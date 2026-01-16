@@ -72,4 +72,50 @@ export class AppController {
       );
     }
   }
+
+  @Post('recommend')
+  async recommend(@Body() body: { text: string }) {
+    try {
+      // AI → analyze
+      const aiRes = await fetch('http://moodweave-ai:8001/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: body.text }),
+      });
+
+      if (!aiRes.ok) {
+        throw new Error(`AI error: ${aiRes.status}`);
+      }
+
+      const analysis = await aiRes.json();
+
+      // Core → music (q-based)
+      const q = encodeURIComponent(analysis.spotify_query);
+      const coreRes = await fetch(
+        `http://moodweave-core:8000/music/?q=${q}`
+      );
+
+      if (!coreRes.ok) {
+        throw new Error(`Core error: ${coreRes.status}`);
+      }
+
+      const music = await coreRes.json();
+
+      // Single response
+      return {
+        analysis,
+        tracks: music.tracks,
+      };
+    } catch (err: any) {
+      throw new HttpException(
+        {
+          message: 'Recommendation pipeline failed',
+          error: err.message,
+        },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
+  }
+  
+
 }
