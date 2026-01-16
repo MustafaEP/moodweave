@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from app.analyzer import analyze_text
 
 app = FastAPI()
 
@@ -15,21 +16,4 @@ def health():
 
 @app.post("/analyze")
 def analyze_mood(req: MoodRequest):
-    text = req.text.lower()
-
-    if any(word in text for word in ["mutlu", "happy", "iyi", "great"]):
-        mood = "happy"
-        suggestions = ["Pop", "Dance", "Feel Good"]
-    elif any(word in text for word in ["üzgün", "sad", "kötü", "depressed"]):
-        mood = "sad"
-        suggestions = ["Acoustic", "Indie", "Chill"]
-    else:
-        mood = "neutral"
-        suggestions = ["Lo-fi", "Jazz", "Ambient"]
-
-    return {
-        "mood": mood,
-        "confidence": 0.6,
-        "suggestions": suggestions,
-        "source": "rule-based-v2"
-    }
+    return analyze_text(req.text)
