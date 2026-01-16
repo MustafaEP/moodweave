@@ -1,5 +1,9 @@
+import logging
 from django.http import JsonResponse
 from core.spotify import search_tracks
+
+
+logger = logging.getLogger(__name__)
 
 def health(request):
     return JsonResponse({
@@ -9,7 +13,8 @@ def health(request):
 
 def music_by_mood(request):
     mood = request.GET.get("mood", "neutral")
-
+    logger.info(f"music_by_mood called with mood={mood}")
+    
     mood_query_map = {
         "happy": "feel good pop",
         "sad": "sad acoustic",
