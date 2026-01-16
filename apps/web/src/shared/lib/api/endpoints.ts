@@ -8,5 +8,6 @@ export const endpoints = {
   health: {
     gateway: '/api/health',
   },
+  recommend: '/api/recommend',
 } as const;
 

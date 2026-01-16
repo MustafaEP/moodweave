@@ -1,39 +1,45 @@
-import type { MoodAnalysisResult } from '../types/mood.types';
+import type { RecommendResponse } from '../types/mood.types';
 import { formatConfidence } from '@/shared/lib/utils/format';
 import { TrackList } from './TrackList';
 import './MoodResult.css';
 
 interface MoodResultProps {
-  result: MoodAnalysisResult;
+  result: RecommendResponse;
 }
 
 export const MoodResult = ({ result }: MoodResultProps) => {
+  const { analysis, tracks } = result;
+
   return (
     <div className="mood-result">
       <div className="mood-result__header">
         <h2 className="mood-result__title">Analiz Sonucu</h2>
         <div className="mood-result__mood">
           <span className="mood-result__mood-label">Ruh Hali:</span>
-          <span className="mood-result__mood-value">{result.mood}</span>
+          <span className="mood-result__mood-value">{analysis.dominant_mood}</span>
         </div>
         <div className="mood-result__confidence">
-          Güven: <strong>{formatConfidence(result.confidence)}</strong>
+          Güven: <strong>{formatConfidence(analysis.confidence)}</strong>
         </div>
       </div>
 
-      {result.suggestions && result.suggestions.length > 0 && (
-        <div className="mood-result__suggestions">
-          <h3 className="mood-result__suggestions-title">Önerilen Müzik Türleri</h3>
-          <ul className="mood-result__suggestions-list">
-            {result.suggestions.map((suggestion, index) => (
-              <li key={index}>{suggestion}</li>
-            ))}
-          </ul>
+      <div className="mood-result__details">
+        <div className="mood-result__detail-item">
+          <span className="mood-result__detail-label">Müzik Amacı:</span>
+          <span className="mood-result__detail-value">{analysis.music_intent}</span>
         </div>
-      )}
+        <div className="mood-result__detail-item">
+          <span className="mood-result__detail-label">Enerji Seviyesi:</span>
+          <span className="mood-result__detail-value">{analysis.energy_level}</span>
+        </div>
+        <div className="mood-result__detail-item">
+          <span className="mood-result__detail-label">Valence:</span>
+          <span className="mood-result__detail-value">{analysis.valence}</span>
+        </div>
+      </div>
 
-      {result.tracks && result.tracks.length > 0 && (
-        <TrackList tracks={result.tracks} />
+      {tracks && tracks.length > 0 && (
+        <TrackList tracks={tracks} />
       )}
     </div>
   );

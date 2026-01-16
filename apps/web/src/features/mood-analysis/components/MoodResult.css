@@ -105,6 +105,51 @@
   text-align: center;
 }
 
+.mood-result__details {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  animation: slideIn 0.6s ease-out 0.1s both;
+}
+
+.mood-result__detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mood-result__detail-item:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.mood-result__detail-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mood-result__detail-value {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
 .mood-result__suggestions {
   margin-bottom: 40px;
   padding: 28px;
@@ -178,6 +223,12 @@
   
   .mood-result__mood-value {
     font-size: 28px;
+  }
+  
+  .mood-result__details {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 16px;
   }
   
   .mood-result__suggestions {
