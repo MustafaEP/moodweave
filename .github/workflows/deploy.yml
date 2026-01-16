@@ -1,0 +1,39 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Deploy on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd /opt/moodweave
+            git pull
+
+            # Build images
+            docker build -t moodweave-gateway:latest apps/gateway
+            docker build -t moodweave-core:latest apps/core
+            docker build -t moodweave-ai:latest apps/ai
+            docker build -t moodweave-web:latest apps/web
+
+            # Restart services
+            cd infra/compose/prod
+            docker compose -f gateway.compose.yml up -d
+            docker compose -f core.compose.yml up -d
+            docker compose -f ai.compose.yml up -d
+            docker compose -f moodweave.compose.yml up -d
+          EOF
