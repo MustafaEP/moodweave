@@ -1,95 +1,136 @@
-# 🎧 MoodWeave
+# 📄 MoodWeave — AI-Powered Mood Based Music Recommendation
 
-**Explainable, Context-Aware Music Intelligence Platform**
+MoodWeave, kullanıcının yazdığı metinden ruh halini analiz eden ve bu ruh haline göre Spotify üzerinden müzik önerileri sunan, production-grade bir web uygulamasıdır.
 
-MoodWeave, kullanıcıların yazdığı metinleri (chat, günlük, notlar) analiz ederek duygu, niyet ve bağlam farkındalığına sahip, açıklanabilir ve kişiselleştirilmiş müzik önerileri üreten yapay zeka destekli bir platformdur.
+## 🌐 Live Demo
 
-Mevcut müzik platformlarının aksine MoodWeave, yalnızca "benzer şarkılar" önermekle kalmaz; neden bu şarkının önerildiğini açıkça ifade eder ve kullanıcı güvenini merkeze alır.
+https://moodweave.mustafaerhanportakal.com
 
-## 🚩 Problem
+## 🚀 Özellikler
 
-- Kullanıcılar ruh hallerini net kelimelerle ifade edemez
-- Playlist'ler bağlamdan (zaman, ruh hali, önceki dinlemeler) kopuktur
-- Tek bir playlist her duruma uymaz
-- Öneriler açıklanmadığı için rastgele hissedilir
+- 🧠 AI destekli ruh hali analizi (FastAPI)
+- 🎵 Ruh haline göre Spotify müzik önerileri
+- 🌍 Tek VPS üzerinde çoklu servis mimarisi
+- 🔐 HTTPS + rate limiting + logging
+- ♻️ Docker healthcheck + otomatik restart
+- ⚙️ GitHub Actions ile push → production CI/CD
 
-MoodWeave, bu problemi metin analizi + bağlam + geçmiş tercihler + explainable AI ile çözer.
+## 🧱 Sistem Mimarisi
 
-## 🧠 Yapay Zeka Yaklaşımı
+```
+Browser
+   │
+   ▼
+Nginx (80/443)
+   │
+   ▼
+Gateway (NestJS)
+   │
+   ├── AI Service (FastAPI)  → Mood Analysis
+   │
+   └── Core Service (Django) → Spotify API
+   │
+   ▼
+Frontend (React)
+```
 
-MoodWeave'de AI yalnızca bir "ekstra" değil, karar mekanizmasının merkezidir.
+### Mimari Kararlar
 
-### Emotion & Intent Extraction
-Metinden çoklu duygu ve niyet çıkarımı
+**Gateway Pattern:**
+Tüm istekler tek bir giriş noktasından geçer.
 
-### Hybrid Recommendation
-- Kural tabanlı filtreler (energy, BPM, valence)
-- Kişisel dinleme profili (skip, favori türler)
-- LLM destekli strateji seçimi
+**Service Isolation:**
+AI, Core ve Web birbirinden bağımsız container'lardır.
 
-### Explainability
-Her öneri 2–4 maddelik gerekçe ile döner
+**Security First:**
+Core ve AI servisleri internete doğrudan açık değildir.
 
-### Feedback Loop
-Kullanıcı geri bildirimleriyle sürekli kalibrasyon
+## 🛠️ Teknoloji Stack
 
-## 🏗️ Sistem Mimarisi
+### Backend
 
-Microservice + BFF yaklaşımı
+- NestJS — API Gateway
+- Django — Business logic & Spotify integration
+- FastAPI — AI / Mood analysis
 
-### 🔹 Node.js (NestJS) – API Gateway / BFF
-- Frontend için tek giriş noktası (`/api/*`)
-- JWT auth, rate limiting, validation
-- WebSocket ile real-time mood & now-playing
-- Backend servislerinden gelen verileri birleştirir
+### Frontend
 
-### 🔹 Django – Core Platform Service
-- Auth, kullanıcı yönetimi, roller
-- MoodEntry, MusicHistory, Playlist domain modelleri
-- Admin panel & raporlama
-- PostgreSQL (jsonb, opsiyonel pgvector)
+- React (Vite)
 
-### 🔹 FastAPI – AI Service
-- NLP & LLM orkestrasyonu
-- Emotion / intent analizi
-- Recommendation planlama
-- Embedding & özetleme servisleri
-- MongoDB (AI context, logs, prompt/response)
+### DevOps
 
-## 🔁 Örnek Akış
+- Docker & Docker Compose
+- Nginx (Reverse Proxy)
+- Let's Encrypt (HTTPS)
+- GitHub Actions (CI/CD)
 
-**Kullanıcı:** "Deadline var, kafam dolu ama odaklanmam lazım."
+## 🔁 API Akışı (Örnek)
 
-**AI Analizi:**
-- `anxiety ↑`
-- `intent = focus`
+```
+POST /api/ai/analyze
+→ Mood tespiti
 
-**Müzik Hedefleri:**
-- Düşük vokal
-- Orta tempo
-- Dengeli energy
+GET /api/core/music?mood=happy
+→ Spotify müzik önerileri
+```
 
-**Çıktı:**
-- Odak playlist'i
-- 3 maddelik açıklama
-- Spotify'da otomatik playlist
+## 🧪 Healthcheck Endpoints
 
-## 📊 Üretilen Çıktılar
+| Servis  | Endpoint      |
+| ------- | ------------- |
+| Gateway | `/api/health` |
+| Core    | `/health/`    |
+| AI      | `/health`     |
 
-- Kişiselleştirilmiş şarkı listeleri
-- Açıklanabilir öneriler
-- Spotify playlist'leri
-- Günlük / haftalık mood & listening insight'ları
+Docker container'lar unhealthy olduğunda otomatik restart edilir.
 
-## 🚀 Geliştirme Durumu
+## ⚙️ Local Development
 
-- **MVP:** Temel analiz, öneri, Spotify entegrasyonu
-- **V1:** Embedding + feedback loop
-- **V2:** Real-time mood chat, A/B test, multi-objective ranking
+```bash
+git clone https://github.com/MustafaEP/moodweave.git
+cd moodweave
+docker compose up -d
+```
 
-## 🎯 Hedeflenen Roller
+`.env` dosyası gereklidir (Spotify credentials).
 
-- Backend Developer / Backend Lead
-- AI Engineer (LLM Applications)
-- Full-Stack Developer
-- Solution / AI Architect
+### 🔐 Environment Variables
+
+```env
+SPOTIFY_CLIENT_ID=xxxx
+SPOTIFY_CLIENT_SECRET=yyyy
+ENV=production
+```
+
+Secrets repo'ya dahil edilmez.
+
+## 🚀 CI/CD
+
+Her main branch push'unda:
+
+- GitHub Actions tetiklenir
+- VPS'e SSH ile bağlanılır
+- Docker image'lar rebuild edilir
+- Container'lar otomatik güncellenir
+
+Zero-touch deploy.
+
+## 📌 Öğrenilenler
+
+- Gateway & microservice mimarisi
+- Production Docker kullanımı
+- Healthcheck, rate limiting, logging
+- Gerçek CI/CD pipeline kurulumu
+- VPS üzerinde multi-domain deployment
+
+## 👤 Geliştirici
+
+**Mustafa Erhan Portakal**  
+Backend & DevOps odaklı yazılım geliştirici
+
+- GitHub: https://github.com/MustafaEP
+- LinkedIn: (eklemeni öneririm)
+
+## 📎 Lisans
+
+MIT
