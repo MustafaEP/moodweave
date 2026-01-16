@@ -18,12 +18,6 @@ export class AppController {
     };
   }
 
-  @Get('core/health')
-  async coreHealth() {
-    const res = await fetch('http://moodweave-core:8000/health/');
-    return res.json();
-  }
-
   @Post('ai/analyze')
   async analyzeMood(@Body() body: { text: string }) {
     try {
@@ -49,6 +43,12 @@ export class AppController {
         HttpStatus.BAD_GATEWAY,
       );
     }
+  }
+  
+  @Get('core/health')
+  async coreHealth() {
+    const res = await fetch('http://moodweave-core:8000/health/');
+    return res.json();
   }
 
   @Get('core/music')
