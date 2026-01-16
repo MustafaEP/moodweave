@@ -17,8 +17,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           cat << 'EOF' > ~/.ssh/moodweave_deploy
-${{ secrets.VPS_SSH_KEY }}
-EOF
+          ${{ secrets.VPS_SSH_KEY }}
+          EOF
           chmod 600 ~/.ssh/moodweave_deploy
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
