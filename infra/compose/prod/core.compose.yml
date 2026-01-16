@@ -4,7 +4,7 @@ services:
     container_name: moodweave-core
     restart: always
     env_file:
-      - ../../.env
+      - ../../../.env
     networks:
       - edge
 
