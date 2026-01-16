@@ -4,6 +4,8 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  Post,
+  Body,
 } from '@nestjs/common';
 
 @Controller('api') 
@@ -20,6 +22,33 @@ export class AppController {
   async coreHealth() {
     const res = await fetch('http://moodweave-core:8000/health/');
     return res.json();
+  }
+
+  @Post('ai/analyze')
+  async analyzeMood(@Body() body: { text: string }) {
+    try {
+      const res = await fetch('http://moodweave-ai:8000/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: body.text }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`AI service response status: ${res.status}`);
+      }
+
+      return await res.json();
+    } catch (err: any) {
+      throw new HttpException(
+        {
+          message: 'AI service unreachable',
+          error: err.message,
+        },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
   }
 
   @Get('core/music')
