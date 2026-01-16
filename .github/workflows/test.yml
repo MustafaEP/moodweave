@@ -1,5 +1,0 @@
-- name: Test SSH
-  run: |
-    ssh -o StrictHostKeyChecking=no \
-        -i ~/.ssh/moodweave_deploy \
-        ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} whoami

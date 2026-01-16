@@ -23,12 +23,12 @@
   --color-info: #3b82f6;
 
   /* Dark Theme - Background Colors */
-  --color-bg-primary: #0f0f0f;
-  --color-bg-secondary: #1a1a1a;
-  --color-bg-tertiary: #262626;
-  --color-bg-elevated: #2d2d2d;
-  --color-bg-hover: #333333;
-  --color-bg-active: #3a3a3a;
+  --color-bg-primary: #0f0f23;
+  --color-bg-secondary: #1a1a2e;
+  --color-bg-tertiary: #16213e;
+  --color-bg-elevated: #1e2749;
+  --color-bg-hover: #2a3356;
+  --color-bg-active: #343f63;
 
   /* Dark Theme - Text Colors */
   --color-text-primary: #f5f5f5;
@@ -124,7 +124,8 @@ body {
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
+  background: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  background-attachment: fixed;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -643,6 +644,26 @@ button:disabled {
   background-color: rgba(239, 68, 68, 0.1);
   border-color: var(--color-danger);
   color: var(--color-danger);
+}
+
+.error-container {
+  margin-top: var(--space-lg);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
 }
 
 /* Navbar */

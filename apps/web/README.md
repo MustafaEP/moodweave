@@ -1,73 +1,134 @@
-# React + TypeScript + Vite
+# MoodWeave Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern, AI-powered mood-based music recommendation web application.
 
-Currently, two official plugins are available:
+## 🎨 Design Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modern Glassmorphism UI**: Beautiful frosted glass effects with backdrop blur
+- **Gradient Backgrounds**: Vibrant purple-to-pink gradients throughout
+- **Smooth Animations**: Fade-ins, slide-ups, and hover effects
+- **Music-Themed**: Wave animations, floating music notes, and audio-visual elements
+- **Dark Theme**: Optimized for comfortable viewing with rich dark colors
+- **Responsive**: Fully responsive design for mobile, tablet, and desktop
 
-## React Compiler
+## 🎯 Key Components
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Layout
+- Animated header with logo and wave effect
+- Glassmorphic main content area
+- Gradient footer with blur effect
 
-## Expanding the ESLint configuration
+### Mood Input
+- Large textarea with glassmorphic design
+- Real-time validation
+- Smooth focus effects
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Mood Results
+- Animated mood display with glow effect
+- Suggestion cards with hover interactions
+- Rotating background gradient
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Track Cards
+- Album art with hover scale effect
+- Glassmorphic containers
+- Staggered entry animations
+- Spotify integration links
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React 19** - UI Framework
+- **TypeScript** - Type Safety
+- **Vite** - Build Tool
+- **Axios** - HTTP Client
+- **CSS3** - Styling with modern features
+  - Glassmorphism
+  - Gradients
+  - Animations
+  - Backdrop Filter
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📁 Project Structure
+
 ```
+src/
+├── app/                    # App configuration
+│   └── providers.tsx      # Context providers
+├── features/              # Feature modules
+│   └── mood-analysis/     
+│       ├── components/    # Feature components
+│       ├── hooks/         # Custom hooks
+│       └── types/         # Type definitions
+├── shared/                # Shared resources
+│   ├── components/
+│   │   ├── ui/           # Reusable UI components
+│   │   └── layout/       # Layout components
+│   ├── lib/              # Utilities
+│   │   ├── api/          # API client
+│   │   └── utils/        # Helper functions
+│   └── constants/        # App constants
+└── index.css             # Global styles
+```
+
+## 🎨 Design System
+
+### Colors
+- Primary: Purple gradient (#667eea → #764ba2)
+- Secondary: Pink accent (#f093fb)
+- Background: Deep blue gradient (#0f0f23 → #1a1a2e → #16213e)
+- Text: White with varying opacity
+
+### Typography
+- Font Family: Inter, system fonts
+- Weights: 400 (normal), 600 (semibold), 700 (bold), 800 (extra bold)
+
+### Spacing
+- Uses consistent spacing scale (8px base)
+
+### Effects
+- Glassmorphism: `backdrop-filter: blur(20px)`
+- Shadows: Layered box-shadows with color
+- Animations: CSS keyframes with cubic-bezier easing
+
+## 🌐 Environment Variables
+
+Create a `.env` file:
+
+```env
+VITE_API_BASE_URL=
+```
+
+Leave empty to use relative paths.
+
+## 📦 Build
+
+```bash
+npm run build
+```
+
+Outputs to `dist/` directory.
+
+## 🐳 Docker
+
+```bash
+docker build -t moodweave-web .
+docker run -p 80:80 moodweave-web
+```
+
+## 📝 License
+
+MIT
