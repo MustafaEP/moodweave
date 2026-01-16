@@ -20,7 +20,7 @@ export const Layout = ({ children }: LayoutProps) => {
       </header>
       <main className="layout__main">{children}</main>
       <footer className="layout__footer">
-        <p>&copy; 2024 MoodWeave. Tüm hakları saklıdır.</p>
+        <p>&copy; 2026 MoodWeave. Tüm hakları saklıdır.</p>
       </footer>
     </div>
   );
