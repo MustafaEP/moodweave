@@ -1,76 +1,29 @@
-import re
+from app.emotion import score_emotion_space
+from app.intents import extract_intents, keywords_for_intents
+from app.composer import compose_spotify_query
 
-POSITIVE_WORDS = ["mutlu", "iyi", "harika", "keyifli", "heyecanlı", "güzel"]
-NEGATIVE_WORDS = ["üzgün", "kötü", "stres", "yorgun", "bıkkın", "kaygılı"]
+def analyze(text: str) -> dict:
+    emotion = score_emotion_space(text)
+    intent_pack = extract_intents(text, top_k=2)
+    intents = intent_pack["intents"]
+    dominant_intent = intent_pack["dominant_intent"]
 
-INTENT_KEYWORDS = {
-    "calm_down": ["sakin", "rahat", "stres", "nefes", "bunaldım"],
-    "focus": ["odak", "çalış", "ders", "konsantrasyon"],
-    "motivation": ["gaz", "motivasyon", "enerji", "kalkmam lazım"],
-    "comfort": ["yalnız", "teselli", "üzgün", "moral"],
-    "celebration": ["kutla", "eğlen", "parti", "dans"],
-}
+    intent_keywords = keywords_for_intents(intents)
+    spotify_query = compose_spotify_query(intent_keywords, emotion)
 
-ENERGY_LOW = ["yorgun", "bitkin", "sakin"]
-ENERGY_HIGH = ["enerjik", "coşkulu", "heyecanlı", "gaz"]
-
-
-def analyze_text(text: str):
-    text_l = text.lower()
-
-    # Valence
-    pos = sum(1 for w in POSITIVE_WORDS if w in text_l)
-    neg = sum(1 for w in NEGATIVE_WORDS if w in text_l)
-    total = pos + neg if pos + neg > 0 else 1
-    valence = max(0.0, min(1.0, pos / total))
-
-    # Energy
-    if any(w in text_l for w in ENERGY_HIGH):
-        energy = "high"
-    elif any(w in text_l for w in ENERGY_LOW):
-        energy = "low"
-    else:
-        energy = "medium"
-
-    # Intent
-    intent = "escape"
-    for key, words in INTENT_KEYWORDS.items():
-        if any(w in text_l for w in words):
-            intent = key
-            break
-
-    # Dominant mood
-    if valence > 0.6:
-        mood = "happy"
-    elif valence < 0.4:
-        mood = "sad"
-    else:
-        mood = "neutral"
-
-    # Spotify query
-    keywords = []
-    if intent == "calm_down":
-        keywords = ["calm", "ambient", "lofi", "soft"]
-    elif intent == "focus":
-        keywords = ["focus", "instrumental", "lofi"]
-    elif intent == "motivation":
-        keywords = ["energetic", "pop", "dance"]
-    elif intent == "comfort":
-        keywords = ["acoustic", "soft", "emotional"]
-    elif intent == "celebration":
-        keywords = ["party", "dance", "happy"]
-    else:
-        keywords = ["chill", "lofi"]
-
-    spotify_query = " ".join(keywords)
+    # genel confidence: emotion confidence * intent netliği
+    intent_clarity = intents[0]["weight"] if intents else 0.5
+    confidence = round(min(1.0, (emotion["confidence"] * 0.7 + intent_clarity * 0.3)), 2)
 
     return {
-        "dominant_mood": mood,
-        "music_intent": intent,
-        "energy_level": energy,
-        "valence": round(valence, 2),
-        "confidence": round(abs(valence - 0.5) + 0.5, 2),
-        "keywords": keywords,
+        "emotion_space": {
+            "valence": emotion["valence"],
+            "arousal": emotion["arousal"],
+            "dominance": emotion["dominance"],
+        },
+        "intents": intents,
+        "dominant_intent": dominant_intent,
+        "confidence": confidence,
         "spotify_query": spotify_query,
-        "source": "music-aware-v1",
+        "source": "emotion-multiintent-v1",
     }

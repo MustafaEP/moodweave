@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from app.analyzer import analyze_text
+from app.analyzer import analyze
 
 app = FastAPI()
 
@@ -16,4 +16,4 @@ def health():
 
 @app.post("/analyze")
 def analyze_mood(req: MoodRequest):
-    return analyze_text(req.text)
+    return analyze(req.text)
