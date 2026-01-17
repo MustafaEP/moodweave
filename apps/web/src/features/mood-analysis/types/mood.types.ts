@@ -18,13 +18,24 @@ export interface MusicRecommendationResponse {
   tracks: Track[];
 }
 
-export interface Analysis {
-  dominant_mood: string;
-  music_intent: string;
-  energy_level: string;
+export type Intent = {
+  type: string;
+  weight: number;
+};
+
+export type EmotionSpace = {
   valence: number;
+  arousal: number;
+  dominance: number;
+};
+
+export interface Analysis {
+  emotion_space: EmotionSpace;
+  intents: Intent[];
+  dominant_intent: string;
   confidence: number;
   spotify_query: string;
+  source: string;
 }
 
 export interface RecommendResponse {
