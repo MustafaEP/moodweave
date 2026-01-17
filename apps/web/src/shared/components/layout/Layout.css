@@ -129,6 +129,9 @@
   margin: 0 auto;
   padding: 60px 20px;
   animation: fadeIn 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 @keyframes fadeIn {

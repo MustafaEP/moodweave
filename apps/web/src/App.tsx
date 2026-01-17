@@ -49,8 +49,12 @@ function App() {
       {isLoading && <Loading />}
       
       {error && (
-        <div className="alert alert-danger error-container">
-          {error}
+        <div className="error-message">
+          <div className="error-message__icon">⚠️</div>
+          <div className="error-message__content">
+            <h3 className="error-message__title">Bir Hata Oluştu</h3>
+            <p className="error-message__text">{error}</p>
+          </div>
         </div>
       )}
       

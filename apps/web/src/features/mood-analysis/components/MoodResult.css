@@ -1,9 +1,10 @@
 .mood-result {
-  margin-top: 60px;
+  margin-top: 0;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   animation: fadeInScale 0.6s ease-out;
+  width: 100%;
 }
 
 @keyframes fadeInScale {
@@ -18,15 +19,16 @@
 }
 
 .mood-result__header {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.18) 50%, rgba(240, 171, 252, 0.15) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  padding: 32px;
-  border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  padding: 40px;
+  border-radius: 24px;
   margin-bottom: 32px;
   box-shadow: 
-    0 8px 32px 0 rgba(31, 38, 135, 0.37),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    0 8px 32px 0 rgba(31, 38, 135, 0.4),
+    0 2px 8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -54,11 +56,15 @@
 .mood-result__title {
   position: relative;
   z-index: 1;
-  margin: 0 0 24px 0;
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
+  margin: 0 0 28px 0;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
 .mood-result__mood {
@@ -78,14 +84,15 @@
 }
 
 .mood-result__mood-value {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 800;
-  background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%);
+  background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 50%, #f0abfc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-transform: capitalize;
   animation: glow 2s ease-in-out infinite;
+  letter-spacing: -0.5px;
 }
 
 @keyframes glow {
@@ -116,32 +123,54 @@
 
 .mood-result__details {
   margin-bottom: 32px;
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
   animation: slideIn 0.6s ease-out 0.1s both;
+  box-shadow: 
+    0 4px 16px 0 rgba(31, 38, 135, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .mood-result__detail-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-  background: rgba(139, 92, 246, 0.1);
-  border-radius: 12px;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  transition: all 0.3s ease;
+  gap: 10px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(99, 102, 241, 0.08) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-result__detail-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .mood-result__detail-item:hover {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%);
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.mood-result__detail-item:hover::before {
+  opacity: 1;
 }
 
 .mood-result__detail-label {
@@ -153,10 +182,11 @@
 }
 
 .mood-result__detail-value {
-  font-size: 18px;
+  font-size: 20px;
   color: #ffffff;
   font-weight: 700;
   text-transform: capitalize;
+  letter-spacing: -0.3px;
 }
 
 .mood-result__detail-section {
@@ -190,18 +220,21 @@
 .mood-result__intent-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  gap: 10px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .mood-result__intent-item:hover {
-  background: rgba(139, 92, 246, 0.25);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.18) 100%);
   border-color: rgba(139, 92, 246, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
 }
 
 .mood-result__intent-type {
