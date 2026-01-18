@@ -324,10 +324,10 @@
 
 .layout__main {
   flex: 1;
-  max-width: 1400px;
+  max-width: 1600px;
   width: 100%;
   margin: 0 auto;
-  padding: 80px 32px;
+  padding: 80px 40px;
   animation: fadeIn 1s ease-out;
   display: flex;
   flex-direction: column;
@@ -400,6 +400,13 @@
 }
 
 /* Responsive */
+@media (max-width: 1400px) {
+  .layout__main {
+    max-width: 1400px;
+    padding: 70px 32px;
+  }
+}
+
 @media (max-width: 1024px) {
   .layout__header {
     padding: 60px 24px 80px;

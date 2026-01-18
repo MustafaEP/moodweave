@@ -1,6 +1,6 @@
 .mood-result {
   margin-top: 0;
-  max-width: 1000px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   animation: fadeInScale 0.6s ease-out;
@@ -509,7 +509,17 @@
 }
 
 /* Responsive */
+@media (max-width: 1400px) {
+  .mood-result {
+    max-width: 1200px;
+  }
+}
+
 @media (max-width: 768px) {
+  .mood-result {
+    max-width: 100%;
+  }
+
   .mood-result__header {
     padding: 32px 24px;
   }
