@@ -35,3 +35,7 @@ export interface RecommendResponse {
   analysis: Analysis;
   tracks: Track[];
 }
+
+// Type aliases for backward compatibility and clearer naming
+export type MoodAnalysisResult = Analysis;
+export type MusicRecommendationResponse = RecommendResponse;
