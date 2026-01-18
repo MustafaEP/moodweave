@@ -49,11 +49,19 @@ function App() {
       {isLoading && <Loading />}
       
       {error && (
-        <div className="error-message">
-          <div className="error-message__icon">⚠️</div>
-          <div className="error-message__content">
-            <h3 className="error-message__title">Bir Hata Oluştu</h3>
-            <p className="error-message__text">{error}</p>
+        <div className="error-container">
+          <div className="error-message">
+            <div className="error-message__icon">⚠️</div>
+            <div className="error-message__content">
+              <h3 className="error-message__title">Bir Hata Oluştu</h3>
+              <p className="error-message__text">{error}</p>
+              <button 
+                className="error-message__retry"
+                onClick={() => setError(null)}
+              >
+                Tekrar Dene
+              </button>
+            </div>
           </div>
         </div>
       )}

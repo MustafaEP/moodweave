@@ -4,109 +4,217 @@
   align-items: center;
   justify-content: center;
   padding: 80px 40px;
-  gap: 28px;
-  animation: fadeIn 0.4s ease-out;
-  max-width: 600px;
+  gap: 32px;
+  animation: fadeIn 0.5s ease-out;
+  max-width: 700px;
   margin: 0 auto;
+  position: relative;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.spinner {
-  width: 64px;
-  height: 64px;
-  border: 4px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
-  border-right-color: #a78bfa;
-  border-bottom-color: #c4b5fd;
-  border-radius: 50%;
-  animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+/* Modern Music Bars Loader */
+.music-loader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+  height: 120px;
   position: relative;
+}
+
+.music-bar {
+  width: 16px;
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+  border-radius: 8px 8px 0 0;
   box-shadow: 
-    0 0 24px rgba(139, 92, 246, 0.4),
-    0 0 48px rgba(139, 92, 246, 0.2);
+    0 0 20px rgba(139, 92, 246, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  animation: musicBounce 1.2s ease-in-out infinite;
 }
 
-.spinner::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 4px solid transparent;
-  border-top-color: rgba(139, 92, 246, 0.4);
-  border-radius: 50%;
-  animation: spin 2s linear infinite reverse;
+.music-bar:nth-child(1) {
+  animation-delay: 0s;
+  height: 40px;
 }
 
-.spinner::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-  margin: -12px 0 0 -12px;
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-  border-radius: 50%;
-  animation: pulse 1.5s ease-in-out infinite;
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+.music-bar:nth-child(2) {
+  animation-delay: 0.1s;
+  height: 60px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.music-bar:nth-child(3) {
+  animation-delay: 0.2s;
+  height: 80px;
 }
 
-@keyframes pulse {
+.music-bar:nth-child(4) {
+  animation-delay: 0.3s;
+  height: 55px;
+}
+
+.music-bar:nth-child(5) {
+  animation-delay: 0.4s;
+  height: 45px;
+}
+
+@keyframes musicBounce {
   0%, 100% {
-    transform: scale(0.8);
+    height: 40px;
     opacity: 0.7;
   }
   50% {
-    transform: scale(1);
+    height: 100px;
+    opacity: 1;
+    box-shadow: 
+      0 0 30px rgba(139, 92, 246, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Loading Text */
+.loading-text-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loading-text {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+  border-radius: 50%;
+  animation: dotPulse 1.4s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
     opacity: 1;
   }
 }
 
-.loading-container p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 17px;
-  font-weight: 600;
+.loading-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
   letter-spacing: 0.5px;
-  animation: pulse 1.5s ease-in-out infinite;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(167, 139, 250, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  animation: fadeInOut 2s ease-in-out infinite;
 }
 
-/* Music note animation */
-.loading-container::after {
-  content: '♪ ♫';
-  font-size: 48px;
-  color: rgba(139, 92, 246, 0.3);
-  animation: float 3s ease-in-out infinite;
-  position: absolute;
-  pointer-events: none;
-}
-
-@keyframes float {
+@keyframes fadeInOut {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
+    opacity: 0.5;
   }
   50% {
-    transform: translateY(-20px) rotate(10deg);
-    opacity: 0.6;
+    opacity: 1;
   }
 }
+
+/* Floating music notes in background */
+.loading-container::before,
+.loading-container::after {
+  content: '♪';
+  position: absolute;
+  font-size: 60px;
+  color: rgba(139, 92, 246, 0.15);
+  animation: floatNote 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.loading-container::before {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.loading-container::after {
+  content: '♫';
+  bottom: 20%;
+  right: 10%;
+  animation-delay: 2s;
+}
+
+@keyframes floatNote {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-30px) rotate(15deg);
+    opacity: 0.3;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loading-container {
+    padding: 60px 20px;
+    gap: 24px;
+  }
+
+  .music-loader {
+    height: 100px;
+    gap: 10px;
+  }
+
+  .music-bar {
+    width: 12px;
+  }
+
+  .loading-text {
+    font-size: 18px;
+  }
+
+  .loading-subtitle {
+    font-size: 14px;
+  }
+}
+

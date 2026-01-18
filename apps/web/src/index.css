@@ -128,6 +128,32 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(240, 171, 252, 0.05) 0px, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Typography */
@@ -668,20 +694,20 @@ button:disabled {
 
 /* Enhanced Error Message */
 .error-message {
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(220, 38, 38, 0.12) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 16px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 20px;
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
   box-shadow: 
-    0 8px 32px 0 rgba(239, 68, 68, 0.2),
+    0 8px 32px 0 rgba(239, 68, 68, 0.25),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  animation: slideDown 0.4s ease-out;
+  animation: slideDown 0.5s ease-out;
 }
 
 @keyframes slideDown {
@@ -696,27 +722,51 @@ button:disabled {
 }
 
 .error-message__icon {
-  font-size: 32px;
+  font-size: 36px;
   flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
+  animation: shake 0.5s ease-in-out;
 }
 
 .error-message__content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .error-message__title {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  font-weight: 700;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
   color: #fca5a5;
+  letter-spacing: -0.3px;
 }
 
 .error-message__text {
   margin: 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
+}
+
+.error-message__retry {
+  align-self: flex-start;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8), rgba(220, 38, 38, 0.8));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.error-message__retry:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 1), rgba(220, 38, 38, 1));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
 }
 
 /* Navbar */

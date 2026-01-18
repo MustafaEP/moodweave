@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 48px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%);
   backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 
     0 8px 32px 0 rgba(31, 38, 135, 0.37),
     0 2px 8px 0 rgba(0, 0, 0, 0.2),
@@ -16,6 +16,15 @@
   animation: slideUp 0.6s ease-out;
   position: relative;
   overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mood-input--focused {
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 
+    0 12px 40px 0 rgba(139, 92, 246, 0.3),
+    0 4px 12px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
 }
 
 .mood-input::before {
@@ -25,7 +34,7 @@
   right: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.10) 0%, transparent 70%);
   animation: rotate 25s linear infinite;
   pointer-events: none;
 }
@@ -50,39 +59,74 @@
   }
 }
 
+.mood-input__header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
 .mood-input__label {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #f0abfc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 50%, #c4b5fd 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-align: center;
-  letter-spacing: 0.3px;
+  letter-spacing: -0.3px;
+  margin-bottom: 12px;
+}
+
+.mood-input__emoji {
+  font-size: 32px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.mood-input__description {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mood-input__textarea-wrapper {
   position: relative;
   z-index: 1;
-  margin-bottom: 8px;
 }
 
 .mood-input__textarea {
   width: 100%;
-  min-height: 160px;
-  padding: 20px;
+  min-height: 180px;
+  padding: 24px;
+  padding-bottom: 50px;
   background: rgba(255, 255, 255, 0.08);
   border: 2px solid rgba(139, 92, 246, 0.3);
-  border-radius: 16px;
+  border-radius: 18px;
   font-size: 16px;
   font-family: inherit;
   color: #ffffff;
   resize: vertical;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  line-height: 1.6;
-  position: relative;
-  z-index: 1;
+  line-height: 1.7;
 }
 
 .mood-input__textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .mood-input__textarea:focus {
@@ -102,19 +146,79 @@
   opacity: 0.6;
 }
 
+.mood-input__char-indicator {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 15, 35, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mood-input__char-count {
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.mood-input__char-count--warning {
+  color: rgba(251, 191, 36, 0.9);
+}
+
+.mood-input__char-count--success {
+  color: rgba(74, 222, 128, 0.9);
+}
+
+.mood-input__char-count--danger {
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.mood-input__check {
+  color: rgba(74, 222, 128, 0.9);
+  font-size: 16px;
+  animation: checkPop 0.3s ease-out;
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .mood-input__error {
-  color: #f87171;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fca5a5;
   font-size: 14px;
+  font-weight: 500;
   margin: 0;
-  padding: 14px 18px;
-  background: linear-gradient(135deg, rgba(248, 113, 113, 0.15) 0%, rgba(239, 68, 68, 0.1) 100%);
-  border-radius: 12px;
-  border: 1px solid rgba(248, 113, 113, 0.3);
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.18) 0%, rgba(239, 68, 68, 0.12) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
   border-left: 4px solid #f87171;
   animation: shake 0.4s ease-in-out;
   position: relative;
   z-index: 1;
   backdrop-filter: blur(10px);
+}
+
+.mood-input__error-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes shake {
@@ -129,7 +233,52 @@
   }
 }
 
-/* Büyük ekranlar için genişlik artırma */
+.mood-input__tips {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  background: rgba(139, 92, 246, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.mood-input__tips-title {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #e9d5ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mood-input__tips-list {
+  margin: 0;
+  padding-left: 24px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mood-input__tips-list li {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 0;
+}
+
+.mood-input__tips-list li::before {
+  content: '→';
+  position: absolute;
+  left: -20px;
+  color: #a78bfa;
+  font-weight: bold;
+}
+
+/* Responsive */
 @media (min-width: 1024px) {
   .mood-input {
     max-width: 900px;
@@ -138,57 +287,73 @@
 
 @media (min-width: 1440px) {
   .mood-input {
-    max-width: 1100px;
+    max-width: 1000px;
     padding: 56px;
   }
   
   .mood-input__label {
-    font-size: 26px;
-  }
-  
-  .mood-input__textarea {
-    min-height: 180px;
-    padding: 24px;
-    font-size: 17px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .mood-input {
-    max-width: 1200px;
-    padding: 64px;
-  }
-  
-  .mood-input__label {
-    font-size: 28px;
+    font-size: 30px;
   }
   
   .mood-input__textarea {
     min-height: 200px;
-    padding: 28px;
-    font-size: 18px;
+    padding: 26px;
+    font-size: 17px;
   }
 }
 
 @media (max-width: 768px) {
   .mood-input {
     padding: 32px 24px;
-    border-radius: 20px;
+    border-radius: 24px;
     gap: 20px;
   }
   
   .mood-input__label {
-    font-size: 20px;
+    font-size: 24px;
+  }
+
+  .mood-input__emoji {
+    font-size: 28px;
+  }
+
+  .mood-input__description {
+    font-size: 14px;
   }
   
   .mood-input__textarea {
-    min-height: 140px;
-    padding: 18px;
+    min-height: 160px;
+    padding: 20px;
+    padding-bottom: 50px;
     font-size: 15px;
   }
   
   .mood-input__error {
-    padding: 12px 16px;
+    padding: 14px 18px;
     font-size: 13px;
+  }
+
+  .mood-input__tips {
+    padding: 16px;
+  }
+
+  .mood-input__tips-title {
+    font-size: 14px;
+  }
+
+  .mood-input__tips-list li {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-input {
+    padding: 24px 20px;
+  }
+
+  .mood-input__label {
+    font-size: 22px;
+    flex-direction: column;
+    gap: 8px;
   }
 }
