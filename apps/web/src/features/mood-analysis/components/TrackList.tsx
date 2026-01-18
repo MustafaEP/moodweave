@@ -37,19 +37,6 @@ export const TrackList = ({ tracks }: TrackListProps) => {
         {tracks.map((track, index) => (
           <article key={index} className="track-card">
             <div className="track-card__number">{index + 1}</div>
-            {track.image && (
-              <div className="track-card__image-wrapper">
-                <img
-                  src={track.image}
-                  alt={track.title}
-                  className="track-card__image"
-                  loading="lazy"
-                />
-                <div className="track-card__overlay">
-                  <span className="track-card__play-icon">▶</span>
-                </div>
-              </div>
-            )}
             <div className="track-card__content">
               <div className="track-card__info">
                 <h4 className="track-card__title">{track.title}</h4>
@@ -64,6 +51,7 @@ export const TrackList = ({ tracks }: TrackListProps) => {
                     width="100%"
                     height="80"
                     frameBorder="0"
+                    scrolling="no"
                     loading="lazy"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     title={`${track.title} - ${track.artist} Spotify Player`}
