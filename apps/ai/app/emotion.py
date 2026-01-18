@@ -1,5 +1,7 @@
 import re
 
+WINDOW = 3 # Kaç kelime yakına bakılacak
+
 # Basit ama genişletilebilir sözlükler (TR + EN karışık destek)
 POS = ["mutlu", "iyi", "harika", "keyif", "heyecan", "sevin", "great", "happy", "awesome", "good"]
 NEG = ["üzgün", "kötü", "stres", "kaygı", "anksiyete", "bunald", "yorgun", "depres", "sad", "anxious", "tired"]
@@ -11,6 +13,9 @@ DOM_UP = ["kontrol", "güçlü", "hazırım", "yaparım", "kararlı", "confident
 DOM_DOWN = ["çaresiz", "kayıp", "bıkkın", "yetişemiyorum", "zor", "helpless", "overwhelmed"]
 
 NEGATIONS = ["değil", "degil", "not", "isn't", "aren't", "don't", "cant", "can't"]
+
+INTENSIFIERS = ["çok", "aşırı", "fazla", "gerçekten", "inanılmaz"]
+DOWNPLAYERS = ["biraz", "az", "pek", "çok da değil"]
 
 
 def _count_hits(text: str, words: list[str]) -> int:
@@ -34,7 +39,7 @@ def score_emotion_space(text: str) -> dict:
     neg = _count_hits(t, NEG)
 
     # Negation varsa valence'ı biraz kır
-    negation = _has_negation_near(t)
+    negation = has_local_negation(t, POS)
 
     # Valence: (pos - neg) normalize -> [0..1]
     raw = pos - neg
@@ -42,7 +47,7 @@ def score_emotion_space(text: str) -> dict:
     valence = (raw + 4) / 8
     valence = max(0.0, min(1.0, valence))
     if negation:
-        valence = max(0.0, valence - 0.15)
+        valence = max(0.0, valence - 0.25)
 
     # Arousal: up - down normalize -> [0..1]
     a_up = _count_hits(t, AROUSAL_UP)
@@ -64,9 +69,36 @@ def score_emotion_space(text: str) -> dict:
     confidence = 0.45 + 0.35 * clarity + 0.20 * signal
     confidence = max(0.0, min(1.0, confidence))
 
+    mult = intensity_multiplier(t)
+
+    valence = max(0.0, min(1.0, valence * mult))
+    arousal = max(0.0, min(1.0, arousal * mult))
+
     return {
         "valence": round(valence, 2),
         "arousal": round(arousal, 2),
         "dominance": round(dominance, 2),
         "confidence": round(confidence, 2),
     }
+
+
+def has_local_negation(text: str, target_word: list[str]) -> bool:
+    tokens = text.lower().split()
+    for i, tok in enumerate(tokens):
+        for w in target_word:
+            if w in tok:
+                start = max(0, i - WINDOW)
+                end = min(len(tokens), i + WINDOW + 1)
+                window = tokens[start:end]
+                if any(n in window for n in NEGATIONS):
+                    return True
+    return False
+
+
+def intensity_multiplier(text: str) -> float:
+    t = text.lower()
+    if any(w in t for w in INTENSIFIERS):
+        return 1.25
+    if any(w in t for w in DOWNPLAYERS):
+        return 0.75
+    return 1.0
