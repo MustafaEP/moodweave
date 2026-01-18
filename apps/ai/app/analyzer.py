@@ -1,6 +1,7 @@
 from app.emotion import score_emotion_space
 from app.intents import extract_intents, keywords_for_intents
 from app.composer import compose_spotify_query
+from app.reasoning import generate_reasoning
 
 def analyze(text: str) -> dict:
     emotion = score_emotion_space(text)
@@ -15,6 +16,8 @@ def analyze(text: str) -> dict:
     intent_clarity = intents[0]["weight"] if intents else 0.5
     confidence = round(min(1.0, (emotion["confidence"] * 0.7 + intent_clarity * 0.3)), 2)
 
+    reasoning = generate_reasoning(text, emotion, intents)
+
     return {
         "emotion_space": {
             "valence": emotion["valence"],
@@ -25,5 +28,6 @@ def analyze(text: str) -> dict:
         "dominant_intent": dominant_intent,
         "confidence": confidence,
         "spotify_query": spotify_query,
-        "source": "emotion-multiintent-v1",
+        "reasoning": reasoning,
+        "source": "emotion-multiintent-v1.2",
     }
