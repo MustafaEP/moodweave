@@ -5,19 +5,6 @@ export interface Track {
   image?: string | null;
 }
 
-//Inactive
-export interface MoodAnalysisResult {
-  mood: string;
-  confidence: number;
-  suggestions?: string[];
-  tracks?: Track[];
-}
-
-//Inactive
-export interface MusicRecommendationResponse {
-  tracks: Track[];
-}
-
 export type Intent = {
   type: string;
   weight: number;
@@ -29,12 +16,18 @@ export type EmotionSpace = {
   dominance: number;
 };
 
+export type Reasoning = {
+  summary: string;
+  details: string[];
+}
+
 export interface Analysis {
   emotion_space: EmotionSpace;
   intents: Intent[];
   dominant_intent: string;
   confidence: number;
   spotify_query: string;
+  reasoning: Reasoning;
   source: string;
 }
 

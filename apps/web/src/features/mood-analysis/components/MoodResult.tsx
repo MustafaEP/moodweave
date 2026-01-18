@@ -125,6 +125,29 @@ export const MoodResult = ({ result }: MoodResultProps) => {
           </div>
         </div>
 
+        {analysis.reasoning && (
+          <div className="mood-result__reasoning-section">
+            <h4 className="mood-result__reasoning-title">
+              <span>🤖</span>
+              AI Açıklaması
+            </h4>
+            <div className="mood-result__reasoning-content">
+              <p className="mood-result__reasoning-summary">
+                {analysis.reasoning.summary}
+              </p>
+              {analysis.reasoning.details && analysis.reasoning.details.length > 0 && (
+                <ul className="mood-result__reasoning-details">
+                  {analysis.reasoning.details.map((detail, index) => (
+                    <li key={index} className="mood-result__reasoning-detail">
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
+
         {analysis.intents && analysis.intents.length > 0 && (
           <div className="mood-result__intents-section">
             <h4 className="mood-result__intents-title">
