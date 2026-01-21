@@ -2,6 +2,7 @@ export interface Track {
   title: string;
   artist: string;
   spotify_url: string;
+  preview_url?: string;
   image?: string | null;
 }
 

@@ -19,7 +19,9 @@ const extractTrackId = (spotifyUrl: string): string | null => {
 const spotifyEmbedUrl = (trackId: string) =>
   `https://open.spotify.com/embed/track/${trackId}`;
 
+
 export const TrackList = ({ tracks }: TrackListProps) => {
+  console.log(tracks.map(track => console.log("preview_url: ", track.preview_url)));
   return (
     <div className="track-list">
       <div className="track-list__header">
@@ -42,7 +44,6 @@ export const TrackList = ({ tracks }: TrackListProps) => {
                 <h4 className="track-card__title">{track.title}</h4>
                 <p className="track-card__artist">{track.artist}</p>
               </div>
-              
               {/* Spotify Embed Player */}
               {extractTrackId(track.spotify_url) && (
                 <div className="track-card__player">
