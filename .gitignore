@@ -18,6 +18,9 @@ dist/
 build/
 *.egg
 
+# Virtual environments (explicit patterns)
+apps/venv-*/
+
 # Django
 *.log
 db.sqlite3
