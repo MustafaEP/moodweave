@@ -19,7 +19,7 @@ class Settings:
 
     def __init__(self) -> None:
         self._gemini_api_key: Optional[str] = os.environ.get("GEMINI_API_KEY") or None
-        self._gemini_model: str = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
+        self._gemini_model: str = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
         self._default_engine: str = os.environ.get("DEFAULT_ANALYSIS_ENGINE", "gemini")
 
     @property
