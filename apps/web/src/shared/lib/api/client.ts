@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { API_BASE_URL } from '@/shared/constants/config';
 
+// Uygulamada api isteklerini kontrol etmek istiyorum.
 class ApiClient {
   private client: AxiosInstance;
 

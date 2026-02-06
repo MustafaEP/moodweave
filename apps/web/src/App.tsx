@@ -1,15 +1,20 @@
 import { useState } from 'react';
-import { MoodInput } from '@/features/mood-analysis/components/MoodInput';
-import { MoodResult } from '@/features/mood-analysis/components/MoodResult';
+import { EngineSelector, MoodInput, MoodResult } from '@/features/mood-analysis';
 import { Layout } from '@/shared/components/layout/Layout';
 import { Loading } from '@/shared/components/ui/Loading/Loading';
 import { endpoints } from '@/shared/lib/api/endpoints';
-import type { RecommendResponse } from '@/features/mood-analysis/types/mood.types';
+import type {
+  AnalysisEngine,
+  RecommendResponse,
+} from '@/features/mood-analysis/types/mood.types';
+
+const DEFAULT_ENGINE: AnalysisEngine = 'gemini';
 
 function App() {
   const [result, setResult] = useState<RecommendResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [engine, setEngine] = useState<AnalysisEngine>(DEFAULT_ENGINE);
 
   const handleAnalyze = async (text: string) => {
     if (!text.trim()) return;
@@ -22,7 +27,7 @@ function App() {
       const res = await fetch(endpoints.recommend, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, engine }),
       });
 
       if (!res.ok) {
@@ -44,7 +49,17 @@ function App() {
 
   return (
     <Layout>
-      <MoodInput onSubmit={handleAnalyze} loading={isLoading} />
+      <MoodInput
+        engineSelector={
+          <EngineSelector
+            value={engine}
+            onChange={setEngine}
+            disabled={isLoading}
+          />
+        }
+        onSubmit={handleAnalyze}
+        loading={isLoading}
+      />
       
       {isLoading && <Loading />}
       

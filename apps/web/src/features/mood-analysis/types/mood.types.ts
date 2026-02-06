@@ -20,7 +20,7 @@ export type EmotionSpace = {
 export type Reasoning = {
   summary: string;
   details: string[];
-}
+};
 
 export interface Analysis {
   emotion_space: EmotionSpace;
@@ -36,6 +36,9 @@ export interface RecommendResponse {
   analysis: Analysis;
   tracks: Track[];
 }
+
+/** Engine used for mood analysis */
+export type AnalysisEngine = 'gemini' | 'legacy';
 
 // Type aliases for backward compatibility and clearer naming
 export type MoodAnalysisResult = Analysis;

@@ -19,14 +19,15 @@ export class AppController {
   }
 
   @Post('ai/analyze')
-  async analyzeMood(@Body() body: { text: string }) {
+  async analyzeMood(@Body() body: { text: string; engine?: string }) {
     try {
+      const payload = { text: body.text, engine: body.engine ?? 'gemini' };
       const res = await fetch('http://moodweave-ai:8001/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: body.text }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -74,13 +75,13 @@ export class AppController {
   }
 
   @Post('recommend')
-  async recommend(@Body() body: { text: string }) {
+  async recommend(@Body() body: { text: string; engine?: string }) {
     try {
-      // AI → analyze
+      const engine = body.engine ?? 'gemini';
       const aiRes = await fetch('http://moodweave-ai:8001/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: body.text }),
+        body: JSON.stringify({ text: body.text, engine }),
       });
 
       if (!aiRes.ok) {

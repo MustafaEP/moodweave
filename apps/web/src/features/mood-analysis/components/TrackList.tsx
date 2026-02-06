@@ -21,7 +21,6 @@ const spotifyEmbedUrl = (trackId: string) =>
 
 
 export const TrackList = ({ tracks }: TrackListProps) => {
-  console.log(tracks.map(track => console.log("preview_url: ", track.preview_url)));
   return (
     <div className="track-list">
       <div className="track-list__header">

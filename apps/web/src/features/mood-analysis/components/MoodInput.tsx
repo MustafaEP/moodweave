@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { FormEvent, ChangeEvent } from 'react';
+import type { FormEvent, ChangeEvent, ReactNode } from 'react';
 import { Button } from '@/shared/components/ui/Button/Button';
 import { validateText } from '@/shared/lib/utils/validation';
 import './MoodInput.css';
@@ -7,9 +7,14 @@ import './MoodInput.css';
 interface MoodInputProps {
   onSubmit: (text: string) => void;
   loading?: boolean;
+  engineSelector?: ReactNode;
 }
 
-export const MoodInput = ({ onSubmit, loading }: MoodInputProps) => {
+export const MoodInput = ({
+  onSubmit,
+  loading,
+  engineSelector,
+}: MoodInputProps) => {
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState(0);
@@ -50,6 +55,7 @@ export const MoodInput = ({ onSubmit, loading }: MoodInputProps) => {
 
   return (
     <form className={`mood-input ${isFocused ? 'mood-input--focused' : ''}`} onSubmit={handleSubmit}>
+      {engineSelector}
       <div className="mood-input__header">
         <label htmlFor="mood-text" className="mood-input__label">
           <span className="mood-input__emoji">💭</span>

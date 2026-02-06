@@ -3,6 +3,8 @@ services:
     image: moodweave-ai:latest
     container_name: moodweave-ai
     restart: always
+    env_file:
+      - ../../../.env
     networks:
       - edge
 
