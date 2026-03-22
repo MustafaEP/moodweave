@@ -62,3 +62,7 @@ htmlcov/
 *.bak
 *.tmp
 .cache/
+
+
+apps/venv/
+apps/venv-ai/
