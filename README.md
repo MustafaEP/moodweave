@@ -129,7 +129,7 @@ Zero-touch deploy.
 Backend & DevOps odaklı yazılım geliştirici
 
 - GitHub: https://github.com/MustafaEP
-- LinkedIn: (eklemeni öneririm)
+- LinkedIn: https://www.linkedin.com/in/mustafa-erhan-portakal-2142101ba/
 
 ## 📎 Lisans
 
