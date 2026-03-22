@@ -4,9 +4,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { LoggerMiddleware } from './logger.middleware';
+import { appConfig } from './config/app.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig],
+    }),
     ThrottlerModule.forRoot({
       throttlers: [
         {
