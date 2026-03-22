@@ -7,6 +7,7 @@ import type {
   AnalysisEngine,
   RecommendResponse,
 } from '@/features/mood-analysis/types/mood.types';
+import { apiClient } from './shared/lib/api/client';
 
 const DEFAULT_ENGINE: AnalysisEngine = 'gemini';
 
@@ -24,17 +25,12 @@ function App() {
     setError(null);
 
     try {
-      const res = await fetch(endpoints.recommend, {
-        method: 'POST',
+      const res = await apiClient.post(endpoints.recommend, {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, engine }),
       });
 
-      if (!res.ok) {
-        throw new Error('Analiz sırasında hata oluştu');
-      }
-
-      const data = await res.json();
+      const data = res.data;
       setResult(data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Bir hata oluştu';
